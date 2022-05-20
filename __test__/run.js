@@ -8,7 +8,10 @@ const assert = require('assert');
 /**
  * List all of the tests
  */
-const tests = [require('./literal-test.js')];
+const tests = [
+  require('./literal-test'),
+  require('./statement-list-test'),
+];
 
 const parser = new Parser();
 
@@ -20,11 +23,11 @@ function exec() {
     /**
      * document test comment
      */
-    "khusyasy";
-  
-    // a number
     1153;
-  
+
+    // another comment
+    "khusyasy";
+
   `;
   
   const ast = parser.parse(program);
@@ -33,7 +36,7 @@ function exec() {
 }
 
 // Manual test
-// exec();
+exec();
 
 /**
  * Automatic testing function
