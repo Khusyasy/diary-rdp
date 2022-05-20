@@ -47,6 +47,10 @@ const Spec = [
   [/^[*/]/, 'MULTIPLICATIVE_OPERATOR'],
 
   // -----------------------------------------------
+  // Relational operators: >, >=, <, <=
+  [/^[><]=?/, 'RELATIONAL_OPERATOR'],
+
+  // -----------------------------------------------
   // STRING
   [/^"([^"]*)"/, 'STRING'],
   [/^'([^']*)'/, 'STRING'],
