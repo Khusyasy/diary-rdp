@@ -6,7 +6,12 @@ const { Parser } = require('../src/Parser');
 
 const parser = new Parser();
 
-const program = `'1153'`;
+const program = `
+  /**
+   * document test comment
+   */
+  1153
+`;
 
 const ast = parser.parse(program);
 

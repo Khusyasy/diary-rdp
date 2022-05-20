@@ -2,9 +2,22 @@
  * Tokenizer Spec.
  */
 const Spec = [
+  // -----------------------------------------------
+  // WHITESPACE
+  [/^\s+/, null],
+
+  // -----------------------------------------------
+  // COMMENT
+  // single line comment
+  [/^\/\/.*/, null],
+  // multi line comment
+  [/^\/\*[\s\S]*?\*\//, null],
+
+  // -----------------------------------------------
   // NUMBER
   [/^\d+/, 'NUMBER'],
 
+  // -----------------------------------------------
   // STRING
   [/^"([^"]*)"/, 'STRING'],
   [/^'([^']*)'/, 'STRING'],
@@ -54,6 +67,11 @@ class Tokenizer {
       // this rule does not match, try next one.
       if (tokenValue === null) {
         continue;
+      }
+
+      // this rule matches type that will be skipped, skip it.
+      if (tokenType === null) {
+        return this.getNextToken();
       }
 
       return {
