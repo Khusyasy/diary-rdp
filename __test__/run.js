@@ -16,6 +16,7 @@ const tests = [
   require('./math-test'),
   require('./assignment-test'),
   require('./variable-test'),
+  require('./if-test'),
 ];
 
 const parser = new Parser();
@@ -25,13 +26,12 @@ const parser = new Parser();
  */
 function exec() {
   const program = `
-    let a;
-    let b, c;
-
-    let x = 123;
-    let y, z = 10;
-
-    o = 123;
+    if (x) {
+      x = 1;
+    }else if (y) {
+      if (z) z = 2;
+      else z = 3;
+    }else x = 4;
   `;
   
   const ast = parser.parse(program);
