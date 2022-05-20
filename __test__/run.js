@@ -11,6 +11,7 @@ const assert = require('assert');
 const tests = [
   require('./literal-test'),
   require('./statement-list-test'),
+  require('./block-test'),
 ];
 
 const parser = new Parser();
@@ -36,7 +37,7 @@ function exec() {
 }
 
 // Manual test
-exec();
+// exec();
 
 /**
  * Automatic testing function
