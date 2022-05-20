@@ -36,7 +36,7 @@ class Parser {
    */
   Program() {
     return {
-      type: "Program",
+      type: 'Program',
       body: this.StatementList(),
     };
   }
@@ -62,6 +62,7 @@ class Parser {
    *  : ExpressionStatement
    *  : BlockStatement
    *  : EmptyStatement
+   *  : VariableStatement
    *  ;
    */
   Statement() {
@@ -70,9 +71,72 @@ class Parser {
         return this.EmptyStatement();
       case '{': 
         return this.BlockStatement();
+      case 'let':
+        return this.VariableStatement();
       default:
         return this.ExpressionStatement();
     }
+  }
+
+  /**
+   * VariableStatement
+   *  : 'let' VariableDeclarationList ';'
+   *  ;
+   */
+  VariableStatement() {
+    this._eat('let');
+    const declarations = this.VariableDeclarationList();
+    this._eat(';');
+    return {
+      type: 'VariableStatement',
+      declarations,
+    };
+  }
+
+  /**
+   * VariableDeclarationList
+   *  : VariableDeclaration
+   *  : VariableDeclarationList ',' VariableDeclaration
+   *  ;
+   */
+  VariableDeclarationList() {
+    const declarations = [];
+
+    do {
+      declarations.push(this.VariableDeclaration());
+    } while (this._lookahead.type === ',' && this._eat(','));
+
+    return declarations;
+  }
+
+  /**
+   * VariableDeclaration
+   *  : Identifier OptVariableInitializer
+   *  ;
+   */
+  VariableDeclaration() {
+    const id = this.Identifier();
+    
+    // OptVariableInitializer
+    const init = this._lookahead.type !== ';' && this._lookahead.type !== ','
+      ? this.VariableInitializer()
+      : null;
+
+    return {
+      type: 'VariableDeclaration',
+      id,
+      init,
+    };
+  }
+
+  /**
+   * VariableInitializer
+   *  : SIMPLE_ASSIGN AssignmentExpression
+   *  ;
+   */
+  VariableInitializer() {
+    this._eat('SIMPLE_ASSIGN');
+    return this.AssignmentExpression();
   }
 
   /**
@@ -114,7 +178,7 @@ class Parser {
     const expression = this.Expression();
     this._eat(';');
     return {
-      type: "ExpressionStatement",
+      type: 'ExpressionStatement',
       expression,
     };
   }
@@ -338,11 +402,11 @@ class Parser {
     const token = this._lookahead;
 
     if (token == null) {
-      throw new SyntaxError(`Unexpected end of input, expected ${tokenType}`);
+      throw new SyntaxError(`Unexpected end of input, expected '${tokenType}'`);
     }
 
     if (token.type !== tokenType) {
-      throw new SyntaxError(`Unexpected token: ${token.type}, expected ${tokenType}`);
+      throw new SyntaxError(`Unexpected token: '${token.type}', expected '${tokenType}'`);
     }
 
     // Advance the tokenizer to the next token.

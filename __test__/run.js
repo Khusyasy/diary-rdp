@@ -15,6 +15,7 @@ const tests = [
   require('./empty-statement-test'),
   require('./math-test'),
   require('./assignment-test'),
+  require('./variable-test'),
 ];
 
 const parser = new Parser();
@@ -24,7 +25,13 @@ const parser = new Parser();
  */
 function exec() {
   const program = `
-    x += y + 1153;
+    let a;
+    let b, c;
+
+    let x = 123;
+    let y, z = 10;
+
+    o = 123;
   `;
   
   const ast = parser.parse(program);
