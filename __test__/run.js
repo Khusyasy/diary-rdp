@@ -13,6 +13,7 @@ const tests = [
   require('./statement-list-test'),
   require('./block-test'),
   require('./empty-statement-test'),
+  require('./math-test'),
 ];
 
 const parser = new Parser();
@@ -22,14 +23,7 @@ const parser = new Parser();
  */
 function exec() {
   const program = `
-    /**
-     * document test comment
-     */
-    1153;
-
-    // another comment
-    "khusyasy";
-
+    (2 + 2) * 4;
   `;
   
   const ast = parser.parse(program);
@@ -38,7 +32,7 @@ function exec() {
 }
 
 // Manual test
-// exec();
+exec();
 
 /**
  * Automatic testing function
