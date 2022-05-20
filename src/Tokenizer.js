@@ -20,6 +20,13 @@ class Tokenizer {
   }
 
   /**
+   * Whether we reached EOF.
+   */
+  isEOF() {
+    return this._cursor === this._string.length;
+  }
+
+  /**
    * Obtain next token.
    */
   getNextToken() {
@@ -38,6 +45,19 @@ class Tokenizer {
       return {
         type: 'NUMBER',
         value: Number(number),
+      };
+    }
+
+    // STRING
+    if (string[0] === '"') {
+      let s = '';
+      do {
+        s += string[this._cursor++];
+      } while (string[this._cursor] !== '"' && !this.isEOF());
+      s += string[this._cursor++];  // skip the last "
+      return {
+        type: 'STRING',
+        value: s,
       };
     }
   }
