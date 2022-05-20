@@ -109,7 +109,7 @@ class Tokenizer {
       }
     }
 
-    throw new SyntaxError(`Unexpected token: ${string[0]}`);
+    throw new SyntaxError(`Unexpected token: '${string[0]}'`);
   }
 
   /**
